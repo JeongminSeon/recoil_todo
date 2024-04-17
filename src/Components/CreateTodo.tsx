@@ -1,7 +1,7 @@
 import React from "react";
-import { todoListState } from "../atom";
+import { categoryState, todoListState } from "../atom";
 import { useForm } from "react-hook-form";
-import { useSetRecoilState } from "recoil";
+import { useRecoilValue, useSetRecoilState } from "recoil";
 
 interface iForm {
   todo: string;
@@ -10,13 +10,14 @@ interface iForm {
 export default function CreateTodo() {
   const { register, handleSubmit, setValue } = useForm<iForm>();
   const setTodoList = useSetRecoilState(todoListState);
+  const category = useRecoilValue(categoryState);
 
   const onValid = ({ todo }: iForm) => {
     setTodoList((oldTodoList) => [
       {
         text: todo,
         id: Date.now(),
-        category: "TO_DO",
+        category: category,
       },
       ...oldTodoList,
     ]);

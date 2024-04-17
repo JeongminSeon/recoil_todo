@@ -1,4 +1,5 @@
 import { atom, selector } from "recoil";
+import persistAtom from "./persist";
 
 // export enum Category {
 //   TO_DO = "TO_DO",
@@ -15,11 +16,13 @@ export interface ITodo {
 export const todoListState = atom<ITodo[]>({
   key: "todoListState",
   default: [],
+  effects_UNSTABLE: [persistAtom],
 });
 
 export const categoryListState = atom<string[]>({
   key: "categoryListState",
   default: ["TO_DO", "DOING", "DONE"],
+  effects_UNSTABLE: [persistAtom],
 });
 
 export const categoryState = atom({
