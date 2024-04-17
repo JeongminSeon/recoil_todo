@@ -1,9 +1,13 @@
-import React, { FormEvent, useState } from "react";
-import { useForm } from "react-hook-form";
+import React, { FormEvent } from "react";
 import Todo from "./Todo";
 import { useRecoilValue, useSetRecoilState } from "recoil";
-import { Category, ITodo, todoListState } from "../atom";
+import {
+  categoryListState,
+  categoryState,
+  filteredTodoListState,
+} from "../atom";
 import CreateTodo from "./CreateTodo";
+import CreateCategory from "./CreateCategory";
 
 /*
     TodoList 기능 정리
@@ -19,26 +23,27 @@ import CreateTodo from "./CreateTodo";
   */
 
 export default function ToDoList() {
-  const todoList = useRecoilValue(todoListState);
-
-  const [currentCategory, setCurrentCategory] = useState<Category>(
-    Category.TO_DO
-  );
+  const todoList = useRecoilValue(filteredTodoListState);
+  const setCategory = useSetRecoilState(categoryState);
+  const categoryList = useRecoilValue(categoryListState);
 
   const onInput = (event: FormEvent<HTMLSelectElement>) => {
     // console.log(event.currentTarget.value);
     const {
       currentTarget: { value },
     } = event;
+
+    setCategory(value);
   };
 
   return (
     <div>
       <select onInput={onInput}>
-        <option value={Category.TO_DO}>TODO</option>
-        <option value={Category.DOING}>DOING</option>
-        <option value={Category.DONE}>DONE</option>
+        {categoryList.map((item) => (
+          <option value={item}>{item}</option>
+        ))}
       </select>
+      <CreateCategory />
       <CreateTodo />
 
       {todoList.map((todo) => (

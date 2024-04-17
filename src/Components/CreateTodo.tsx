@@ -1,5 +1,5 @@
 import React from "react";
-import { Category, todoListState } from "../atom";
+import { todoListState } from "../atom";
 import { useForm } from "react-hook-form";
 import { useSetRecoilState } from "recoil";
 
@@ -16,7 +16,7 @@ export default function CreateTodo() {
       {
         text: todo,
         id: Date.now(),
-        category: Category.TO_DO,
+        category: "TO_DO",
       },
       ...oldTodoList,
     ]);
